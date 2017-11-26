@@ -456,12 +456,12 @@ func (s *Server) handleAssertionRequest(w *Response, r *http.Request) *AccessReq
 	return ret
 }
 
-func (s *Server) FinishAccessRequest(w *Response, r *http.Request, ar *AccessRequest) {
+func (s *Server) FinishAccessRequest(w *Response, ar *AccessRequest) {
 	// don't process if is already an error
 	if w.IsError {
 		return
 	}
-	redirectUri := r.Form.Get("redirect_uri")
+	var redirectUri = ""
 	// Get redirect uri from AccessRequest if it's there (e.g., refresh token request)
 	if ar.RedirectUri != "" {
 		redirectUri = ar.RedirectUri

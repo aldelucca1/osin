@@ -199,7 +199,7 @@ func (s *Server) HandleAuthorizeRequest(w *Response, r *http.Request) *Authorize
 	return nil
 }
 
-func (s *Server) FinishAuthorizeRequest(w *Response, r *http.Request, ar *AuthorizeRequest) {
+func (s *Server) FinishAuthorizeRequest(w *Response, ar *AuthorizeRequest) {
 	// don't process if is already an error
 	if w.IsError {
 		return
@@ -225,7 +225,7 @@ func (s *Server) FinishAuthorizeRequest(w *Response, r *http.Request, ar *Author
 				UserData:        ar.UserData,
 			}
 
-			s.FinishAccessRequest(w, r, ret)
+			s.FinishAccessRequest(w, ret)
 			if ar.State != "" && w.InternalError == nil {
 				w.Output["state"] = ar.State
 			}

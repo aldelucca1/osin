@@ -28,7 +28,7 @@ func TestAccessAuthorizationCode(t *testing.T) {
 
 	if ar := server.HandleAccessRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAccessRequest(resp, req, ar)
+		server.FinishAccessRequest(resp, ar)
 	}
 
 	//fmt.Printf("%+v", resp)
@@ -75,7 +75,7 @@ func TestAccessRefreshToken(t *testing.T) {
 
 	if ar := server.HandleAccessRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAccessRequest(resp, req, ar)
+		server.FinishAccessRequest(resp, ar)
 	}
 	//fmt.Printf("%+v", resp)
 
@@ -126,7 +126,7 @@ func TestAccessRefreshTokenSaveToken(t *testing.T) {
 
 	if ar := server.HandleAccessRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAccessRequest(resp, req, ar)
+		server.FinishAccessRequest(resp, ar)
 	}
 	//fmt.Printf("%+v", resp)
 
@@ -177,7 +177,7 @@ func TestAccessPassword(t *testing.T) {
 
 	if ar := server.HandleAccessRequest(resp, req); ar != nil {
 		ar.Authorized = ar.Username == "testing" && ar.Password == "testing"
-		server.FinishAccessRequest(resp, req, ar)
+		server.FinishAccessRequest(resp, ar)
 	}
 
 	//fmt.Printf("%+v", resp)
@@ -223,7 +223,7 @@ func TestAccessClientCredentials(t *testing.T) {
 
 	if ar := server.HandleAccessRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAccessRequest(resp, req, ar)
+		server.FinishAccessRequest(resp, ar)
 	}
 
 	//fmt.Printf("%+v", resp)
@@ -436,7 +436,7 @@ func TestAccessAuthorizationCodePKCE(t *testing.T) {
 
 		if ar := server.HandleAccessRequest(resp, req); ar != nil {
 			ar.Authorized = true
-			server.FinishAccessRequest(resp, req, ar)
+			server.FinishAccessRequest(resp, ar)
 		}
 
 		if resp.IsError {

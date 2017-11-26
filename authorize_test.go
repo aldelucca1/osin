@@ -25,7 +25,7 @@ func TestAuthorizeCode(t *testing.T) {
 
 	if ar := server.HandleAuthorizeRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAuthorizeRequest(resp, req, ar)
+		server.FinishAuthorizeRequest(resp, ar)
 	}
 
 	//fmt.Printf("%+v", resp)
@@ -66,7 +66,7 @@ func TestAuthorizeToken(t *testing.T) {
 
 	if ar := server.HandleAuthorizeRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAuthorizeRequest(resp, req, ar)
+		server.FinishAuthorizeRequest(resp, ar)
 	}
 
 	//fmt.Printf("%+v", resp)
@@ -108,7 +108,7 @@ func TestAuthorizeCodePKCERequired(t *testing.T) {
 		req.Form.Set("client_id", "public-client")
 		if ar := server.HandleAuthorizeRequest(resp, req); ar != nil {
 			ar.Authorized = true
-			server.FinishAuthorizeRequest(resp, req, ar)
+			server.FinishAuthorizeRequest(resp, ar)
 		}
 		if !resp.IsError || resp.ErrorId != "invalid_request" || strings.Contains(resp.StatusText, "code_challenge") {
 			t.Errorf("Expected invalid_request error describing the code_challenge required, got %#v", resp)
@@ -128,7 +128,7 @@ func TestAuthorizeCodePKCERequired(t *testing.T) {
 		req.Form.Set("client_id", "1234")
 		if ar := server.HandleAuthorizeRequest(resp, req); ar != nil {
 			ar.Authorized = true
-			server.FinishAuthorizeRequest(resp, req, ar)
+			server.FinishAuthorizeRequest(resp, ar)
 		}
 		if resp.IsError && resp.InternalError != nil {
 			t.Fatalf("Error in response: %s", resp.InternalError)
@@ -166,7 +166,7 @@ func TestAuthorizeCodePKCEPlain(t *testing.T) {
 
 	if ar := server.HandleAuthorizeRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAuthorizeRequest(resp, req, ar)
+		server.FinishAuthorizeRequest(resp, ar)
 	}
 
 	//fmt.Printf("%+v", resp)
@@ -222,7 +222,7 @@ func TestAuthorizeCodePKCES256(t *testing.T) {
 
 	if ar := server.HandleAuthorizeRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAuthorizeRequest(resp, req, ar)
+		server.FinishAuthorizeRequest(resp, ar)
 	}
 
 	//fmt.Printf("%+v", resp)
