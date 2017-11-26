@@ -61,7 +61,7 @@ func (s *Server) HandleInfoRequest(w *Response, r *http.Request) *InfoRequest {
 }
 
 // FinishInfoRequest finalizes the request handled by HandleInfoRequest
-func (s *Server) FinishInfoRequest(w *Response, r *http.Request, ir *InfoRequest) {
+func (s *Server) FinishInfoRequest(w *Response, ir *InfoRequest) {
 	// don't process if is already an error
 	if w.IsError {
 		return

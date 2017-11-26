@@ -19,7 +19,7 @@ func TestInfo(t *testing.T) {
 	req.Form.Set("code", "9999")
 
 	if ar := server.HandleInfoRequest(resp, req); ar != nil {
-		server.FinishInfoRequest(resp, req, ar)
+		server.FinishInfoRequest(resp, ar)
 	}
 
 	if resp.IsError && resp.InternalError != nil {
@@ -51,7 +51,7 @@ func TestInfoWhenCodeIsOnHeader(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer 9999")
 
 	if ar := server.HandleInfoRequest(resp, req); ar != nil {
-		server.FinishInfoRequest(resp, req, ar)
+		server.FinishInfoRequest(resp, ar)
 	}
 
 	if resp.IsError && resp.InternalError != nil {
