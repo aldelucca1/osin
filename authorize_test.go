@@ -110,7 +110,7 @@ func TestAuthorizeCodePKCERequired(t *testing.T) {
 			ar.Authorized = true
 			server.FinishAuthorizeRequest(resp, ar)
 		}
-		if !resp.IsError || resp.ErrorId != "invalid_request" || strings.Contains(resp.StatusText, "code_challenge") {
+		if !resp.IsError || resp.ErrorId != "invalid_request" || !strings.Contains(resp.StatusText, "code_challenge") {
 			t.Errorf("Expected invalid_request error describing the code_challenge required, got %#v", resp)
 		}
 	}
