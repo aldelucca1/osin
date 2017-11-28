@@ -58,7 +58,7 @@ func TestErrorResponseJSON(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	r := NewResponse(NewTestingStorage())
-	r.ErrorStatusCode = 500
+	r.ErrorStatusCode = deferror.GetCode(E_INVALID_REQUEST)
 	r.SetError(E_INVALID_REQUEST, "")
 
 	err = OutputJSON(r, w, req)
@@ -68,7 +68,7 @@ func TestErrorResponseJSON(t *testing.T) {
 
 	//fmt.Printf("%d - %s - %+v", w.Code, w.Body.String(), w.HeaderMap)
 
-	if w.Code != 500 {
+	if w.Code != deferror.GetCode(E_INVALID_REQUEST) {
 		t.Fatalf("Invalid response code for error output: %d", w.Code)
 	}
 

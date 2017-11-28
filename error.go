@@ -1,5 +1,7 @@
 package osin
 
+import "net/http"
+
 type DefaultErrorId string
 
 const (
@@ -19,9 +21,10 @@ var (
 	deferror *DefaultErrors = NewDefaultErrors()
 )
 
-// Default errors and messages
+// DefaultErrors - Contains the Default errors and messages
 type DefaultErrors struct {
 	errormap map[string]string
+	codemap  map[string]int
 }
 
 // NewDefaultErrors initializes OAuth2 error codes and descriptions.
@@ -30,7 +33,7 @@ type DefaultErrors struct {
 // http://tools.ietf.org/html/rfc6749#section-5.2
 // http://tools.ietf.org/html/rfc6749#section-7.2
 func NewDefaultErrors() *DefaultErrors {
-	r := &DefaultErrors{errormap: make(map[string]string)}
+	r := &DefaultErrors{errormap: make(map[string]string), codemap: make(map[string]int)}
 	r.errormap[E_INVALID_REQUEST] = "The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed."
 	r.errormap[E_UNAUTHORIZED_CLIENT] = "The client is not authorized to request a token using this method."
 	r.errormap[E_ACCESS_DENIED] = "The resource owner or authorization server denied the request."
@@ -41,6 +44,18 @@ func NewDefaultErrors() *DefaultErrors {
 	r.errormap[E_UNSUPPORTED_GRANT_TYPE] = "The authorization grant type is not supported by the authorization server."
 	r.errormap[E_INVALID_GRANT] = "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
 	r.errormap[E_INVALID_CLIENT] = "Client authentication failed (e.g., unknown client, no client authentication included, or unsupported authentication method)."
+
+	r.codemap[E_INVALID_REQUEST] = http.StatusBadRequest
+	r.codemap[E_UNAUTHORIZED_CLIENT] = http.StatusBadRequest
+	r.codemap[E_ACCESS_DENIED] = http.StatusBadRequest
+	r.codemap[E_UNSUPPORTED_RESPONSE_TYPE] = http.StatusBadRequest
+	r.codemap[E_INVALID_SCOPE] = http.StatusBadRequest
+	r.codemap[E_SERVER_ERROR] = http.StatusInternalServerError
+	r.codemap[E_TEMPORARILY_UNAVAILABLE] = http.StatusTooManyRequests
+	r.codemap[E_UNSUPPORTED_GRANT_TYPE] = http.StatusBadRequest
+	r.codemap[E_INVALID_GRANT] = http.StatusUnauthorized
+	r.codemap[E_INVALID_CLIENT] = http.StatusUnauthorized
+
 	return r
 }
 
@@ -49,4 +64,11 @@ func (e *DefaultErrors) Get(id string) string {
 		return m
 	}
 	return id
+}
+
+func (e *DefaultErrors) GetCode(id string) int {
+	if m, ok := e.codemap[id]; ok {
+		return m
+	}
+	return http.StatusInternalServerError
 }
