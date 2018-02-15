@@ -1,0 +1,14 @@
+package: github.com/aldelucca1/osin
+import:
+- package: github.com/RangelReale/osin
+  version: ^1.0.0
+  subpackages:
+  - example
+- package: github.com/RangelReale/osincli
+- package: github.com/dgrijalva/jwt-go
+  version: ^3.1.0
+- package: github.com/satori/go.uuid
+  version: ~1.1.0
+- package: golang.org/x/oauth2
+- package: gopkg.in/square/go-jose.v1
+  version: ^2.1.3
