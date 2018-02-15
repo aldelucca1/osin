@@ -109,7 +109,7 @@ func TestAuthorizeTokenWithInvalidClient(t *testing.T) {
 
 	if ar := server.HandleAuthorizeRequest(resp, req); ar != nil {
 		ar.Authorized = true
-		server.FinishAuthorizeRequest(resp, req, ar)
+		server.FinishAuthorizeRequest(resp, ar)
 	}
 
 	if !resp.IsError {
